@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.mbatok.smartHome.iml" filepath="$PROJECT_DIR$/.idea/modules/com.mbatok.smartHome.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.mbatok.smartHome_main.iml" filepath="$PROJECT_DIR$/.idea/modules/com.mbatok.smartHome_main.iml" group="com.mbatok.smartHome" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.mbatok.smartHome_test.iml" filepath="$PROJECT_DIR$/.idea/modules/com.mbatok.smartHome_test.iml" group="com.mbatok.smartHome" />
+    </modules>
+  </component>
+</project>
