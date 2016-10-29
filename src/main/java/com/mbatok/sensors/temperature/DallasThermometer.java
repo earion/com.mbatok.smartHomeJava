@@ -1,15 +1,14 @@
-package com.mbatok.temp;
+package com.mbatok.sensors.temperature;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.text.DecimalFormat;
 import java.util.List;
 
 /**
  * Created by mateusz on 25.08.16.
  */
-public class DallasThermometer implements Thermometer {
+public class DallasThermometer implements ThermometerSensor {
 
     private final String path = "/sys/bus/w1/devices";
     private final String tempheratureFile = "w1_slave";
@@ -39,7 +38,7 @@ public class DallasThermometer implements Thermometer {
 
 
     @Override
-    public Float readThemperature() throws IOException {
+    public Float readTemperature() throws IOException {
         checkSensorExists(sensorName);
         String thempFileDir = path + "/" + sensorName + "/" + tempheratureFile;
         File tempFile = new File(thempFileDir);
@@ -57,9 +56,11 @@ public class DallasThermometer implements Thermometer {
 
     @Override
     public String readTemperatureAsString() throws IOException {
-        Float temp = readThemperature();
-        DecimalFormat df=new DecimalFormat("0.0");
-        return df.format(temp);
+        return String.format("%2.1f" + generateDeegreSymbolForLCDDisplay() + "C",readTemperature());
+    }
+
+    private String generateDeegreSymbolForLCDDisplay() {
+        return Character.toString((char) 161);
     }
 
 
@@ -73,7 +74,7 @@ public class DallasThermometer implements Thermometer {
     }
 
     @Override
-    public String getDesctipiontAndTemperatureValue() throws IOException {
+    public String getDescriptionAndTemperatureValue() throws IOException {
         return getDescription() + " " + readTemperatureAsString();
     }
 }

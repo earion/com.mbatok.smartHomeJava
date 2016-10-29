@@ -1,4 +1,4 @@
-package com.mbatok.temp;
+package com.mbatok.sensors.temperature;
 
 import com.pi4j.system.SystemInfo;
 
@@ -8,10 +8,10 @@ import java.text.DecimalFormat;
 /**
  * Created by mateusz on 25.08.16.
  */
-public class SystemThermometer implements Thermometer{
+public class SystemThermometer implements ThermometerSensor {
 
     @Override
-    public Float readThemperature() throws IOException {
+    public Float readTemperature() throws IOException {
         try {
             return SystemInfo.getCpuTemperature();
         } catch (InterruptedException e ) {
@@ -21,7 +21,7 @@ public class SystemThermometer implements Thermometer{
 
     @Override
     public String readTemperatureAsString() throws IOException {
-        Float  temp = readThemperature();
+        Float  temp = readTemperature();
         DecimalFormat df=new DecimalFormat("0.0");
         return df.format(temp);
     }
@@ -32,7 +32,7 @@ public class SystemThermometer implements Thermometer{
     }
 
     @Override
-    public String getDesctipiontAndTemperatureValue() throws IOException {
+    public String getDescriptionAndTemperatureValue() throws IOException {
         return getDescription() + " " + readTemperatureAsString();
     }
 }

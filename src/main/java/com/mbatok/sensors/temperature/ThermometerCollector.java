@@ -1,4 +1,4 @@
-package com.mbatok.temp;
+package com.mbatok.sensors.temperature;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class ThermometerCollector {
 
-    private ArrayList<Thermometer> sensorsList;
+    private ArrayList<ThermometerSensor> sensorsList;
 
     public ThermometerCollector(String sensorsFileName) throws IOException {
         File sensorsFile = new File(sensorsFileName);
@@ -24,10 +24,18 @@ public class ThermometerCollector {
             String systemDeviceName = device[1];
             sensorsList.add(new DallasThermometer(systemDeviceName, description));
         }
+    }
+
+    public void addSystemSensor() {
         sensorsList.add(new SystemThermometer());
     }
 
-    public ArrayList<Thermometer> getSensorsList() {
+    public int getTempSensorsNumber() {
+        return sensorsList.size();
+    }
+
+
+    public ArrayList<ThermometerSensor> getSensorsList() {
         return sensorsList;
     }
 }

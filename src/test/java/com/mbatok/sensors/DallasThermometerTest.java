@@ -1,5 +1,6 @@
-package com.mbatok.temp;
+package com.mbatok.sensors;
 
+import com.mbatok.sensors.temperature.DallasThermometer;
 import org.junit.Test;
 
 import java.io.IOException;
