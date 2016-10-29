@@ -47,7 +47,7 @@ public final class LCDFactory {
 	public static I2cLCD createLCD(int bus, int address) throws IOException, I2CFactory.UnsupportedBusNumberException {
 
 		switch (address) {
-			case 0x27: return new I2cRealLCD(4);
+			case 0x27: return new I2cRealLCD(4,20);
 			case 0x20: return new I2CRealLCDAdafruit();
 			default: return new MockupLCD(bus,address);
 		}

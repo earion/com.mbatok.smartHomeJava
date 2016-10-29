@@ -41,6 +41,8 @@ public interface I2cLCD {
 
 	void setText(int row, String string) throws IOException;
 
+	void setTextForWholeLcdLength(int row,String string) throws IOException;
+
 	public void setTextNearCursor(String text) throws IOException;
 
 	void setCursorPosition(int row, int column) throws IOException;

@@ -318,6 +318,11 @@ public class I2CRealLCDAdafruit implements I2cLCD {
 	}
 
 	@Override
+	public void setTextForWholeLcdLength(int row, String string) throws IOException {
+		throw new RuntimeException("Not implemented");
+	}
+
+	@Override
 	public void setTextNearCursor(String text) throws IOException {
 
 	}

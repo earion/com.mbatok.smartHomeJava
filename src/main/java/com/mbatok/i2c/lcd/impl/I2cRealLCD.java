@@ -1,5 +1,6 @@
 package com.mbatok.i2c.lcd.impl;
 
+import com.mbatok.sys.stringFixUtil.StringFixLength;
 import com.pi4j.io.i2c.I2CDevice;
 import com.pi4j.io.i2c.I2CFactory;
 import com.mbatok.i2c.lcd.Color;
@@ -74,17 +75,19 @@ public class I2cRealLCD implements I2cLCD {
     private final int lcdMaxLines;
     private int[] ROW_OFFSETS = {0x80,0xC0,0x94,0xD4};
     private String[] lcdContent;
+    private final int lcdLength;
 
 
 
     private int displayControl = LCD_DISPLAYON | LCD_CURSOROFF | LCD_BLINKOFF;
     private int backlighgState= 1;
 
-    public I2cRealLCD(int lines) throws IOException, I2CFactory.UnsupportedBusNumberException {
+    public I2cRealLCD(int lines,int signsInLine) throws IOException, I2CFactory.UnsupportedBusNumberException {
         lcd = I2CFactory.getInstance(BUS_1).getDevice(LCD_I2C_ADDRESS);
         initialize();
         lcdContent = new String[4];
         lcdMaxLines = lines;
+        lcdLength = signsInLine;
     }
 
     private void initialize() throws IOException {
@@ -155,6 +158,16 @@ public class I2cRealLCD implements I2cLCD {
         setTextNearCursor(lineContent);
         lcdContent[row] = lineContent;
     }
+
+
+
+    public void setTextForWholeLcdLength(int row, String lineContent) throws IOException {
+        if(row > lcdMaxLines) throw new IOException("To much rows in the text, max value is " + Integer.toString(lcdMaxLines));
+        if(lineContent.length() > lcdLength) throw  new IOException("Maximum signs that can be placed in one line are " + lcdLength);
+        setText(row, StringFixLength.generateFixLengthString(lineContent,lcdLength));
+
+    }
+
 
 
     public void setTextNearCursor(String text) throws IOException {
