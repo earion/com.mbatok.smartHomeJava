@@ -1,5 +1,7 @@
 package com.mbatok.sensors.temperature;
 
+import com.mbatok.sensors.Sensor;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -8,7 +10,7 @@ import java.util.List;
 /**
  * Created by mateusz on 25.08.16.
  */
-public class DallasThermometer implements ThermometerSensor {
+public class DallasThermometer implements Sensor {
 
     private final String path = "/sys/bus/w1/devices";
     private final String tempheratureFile = "w1_slave";
@@ -37,7 +39,7 @@ public class DallasThermometer implements ThermometerSensor {
     }
 
 
-    @Override
+
     public Float readTemperature() throws IOException {
         checkSensorExists(sensorName);
         String thempFileDir = path + "/" + sensorName + "/" + tempheratureFile;
@@ -53,19 +55,17 @@ public class DallasThermometer implements ThermometerSensor {
         return accurateRead;
     }
 
-
-    @Override
-    public String readTemperatureAsString() throws IOException {
-        return String.format("%2.1f" + generateDeegreSymbolForLCDDisplay() + "C",readTemperature());
-    }
-
-    private String generateDeegreSymbolForLCDDisplay() {
+    public static String generateDeegreSymbolForLCDDisplay() {
         return Character.toString((char) 161);
     }
 
-
     private void checkIfSensorReadinghasGoodChecksum(String lineWIthCrcReading) throws IOException {
         if(!lineWIthCrcReading.endsWith("YES")) throw new IOException("Sensor " + sensorName  + " damaged");
+    }
+
+    @Override
+    public float read() throws IOException {
+        return readTemperature();
     }
 
     @Override
@@ -74,9 +74,10 @@ public class DallasThermometer implements ThermometerSensor {
     }
 
     @Override
-    public String getDescriptionAndTemperatureValue() throws IOException {
-        return getDescription() + " " + readTemperatureAsString();
+    public String getSensorType() {
+        return "Dallas DHT";
     }
+
 }
 
 

@@ -1,5 +1,6 @@
 package com.mbatok.sensors.humidity;
 
+import com.mbatok.sensors.Sensor;
 import com.mbatok.sensors.temperature.ThermometerSensor;
 import com.mbatok.sys.cli.CLIProcess;
 
@@ -8,21 +9,23 @@ import java.io.IOException;
 /**
  * Created by mateusz on 27.10.16.
  */
-public class DHT22  implements HumiditySensor,ThermometerSensor {
+public abstract class DHT22 implements Sensor {
 
-    private final Runtime runtime;
     private float temperature;
     private float humidity;
     private String description;
 
-    public DHT22()  {
-        runtime = Runtime.getRuntime();
-        description = "DHT22";
+    protected DHT22()  {
         temperature=0;
         humidity = 0;
     }
 
-    private void readTemperatureAndHumidity() {
+    @Override
+    public String getSensorType() {
+        return "DHT22";
+    }
+
+        protected void readTemperatureAndHumidity() {
         try {
             String dht22output = executeReadingAndGetResult();
             extractHumidityAndTemeperatureData(dht22output);
@@ -30,7 +33,7 @@ public class DHT22  implements HumiditySensor,ThermometerSensor {
         }
     }
 
-    private void extractHumidityAndTemeperatureData(String dht22output) {
+    protected void extractHumidityAndTemeperatureData(String dht22output) {
         String[]  dht22goodOutputArray  = dht22output.split(",");
         if(Float.valueOf(dht22goodOutputArray[0]) != 0) {
             humidity = Float.valueOf(dht22goodOutputArray[0]);
@@ -38,7 +41,7 @@ public class DHT22  implements HumiditySensor,ThermometerSensor {
         temperature = Float.valueOf(dht22goodOutputArray[1]);
     }
 
-    private String executeReadingAndGetResult() throws IOException {
+    protected String executeReadingAndGetResult() throws IOException {
         CLIProcess runDht22read = new CLIProcess("sudo /home/pi/dev/dht22");
         String dht22output =  runDht22read.executeWithTimeoutInSeconds(3).getSuccessMessage();
         if(dht22output.contains("IO Error")) {
@@ -47,41 +50,15 @@ public class DHT22  implements HumiditySensor,ThermometerSensor {
         return dht22output;
     }
 
-
-    @Override
-    public Float readHumidity() {
+    protected Float readHumidity() {
         readTemperatureAndHumidity();
         return humidity;
     }
 
-    @Override
-    public String readHumidityAsString()  {
-        return String.format("%1.1f",readHumidity());
-    }
-
-    @Override
-    public Float readTemperature()  {
+    protected Float readTemperature()  {
         readTemperatureAndHumidity();
         return temperature;
     }
 
-    @Override
-    public String readTemperatureAsString() {
-        return String.format("%1.1f",readTemperature());
-    }
 
-    @Override
-    public String getDescription() {
-        return description;
-    }
-
-    @Override
-    public String getDescriptionAndTemperatureValue() throws IOException {
-        return String.format("%s %s %s ","Wewnatrz T:", readTemperatureAsString(), " C");
-    }
-
-    @Override
-    public String getDescriptionAndHumidityValue() throws IOException {
-        return "Wilgotnosc" + " " + readHumidityAsString() + " %";
-    }
 }

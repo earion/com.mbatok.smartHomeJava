@@ -1,6 +1,7 @@
 import com.mbatok.i2c.lcd.I2cLCD;
 import com.mbatok.i2c.lcd.LCDFactory;
 import com.mbatok.sensors.humidity.DHT22;
+import com.mbatok.sensors.humidity.DHT22Humidity;
 import com.mbatok.sensors.temperature.ThermometerCollector;
 import com.pi4j.io.i2c.I2CBus;
 import com.pi4j.io.i2c.I2CFactory;
@@ -30,7 +31,7 @@ public class WeatherStation {
     public WeatherStation() throws IOException, I2CFactory.UnsupportedBusNumberException {
         lcd = LCDFactory.createLCD(I2CBus.BUS_1,0x27);
         thermometerCollector = new ThermometerCollector("classes/thempSensorsList.csv");
-        dht22 = new DHT22();
+        dht22 = new DHT22Humidity();
     }
 
 
@@ -65,11 +66,12 @@ public class WeatherStation {
                 lcd.setText(i+1,e.getMessage());
             }
         }
-        lcd.setTextForWholeLcdLength(3, dht22.getDescriptionAndHumidityValue());
+        lcd.setTextForWholeLcdLength(3, dht22.getDescription() + " " + dht22.read());
     }
 
     private String getSpecyficTemperatureSensor(int i) throws IOException {
-        return thermometerCollector.getSensorsList().get(i).getDescriptionAndTemperatureValue();
+        return thermometerCollector.getSensorsList().get(i).getDescription() + "" +
+                "" + thermometerCollector.getSensorsList().get(i).read();
     }
 
 
