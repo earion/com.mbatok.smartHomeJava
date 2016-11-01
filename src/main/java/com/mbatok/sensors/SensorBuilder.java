@@ -19,27 +19,21 @@ public class SensorBuilder {
             case "DS1820" : {
                 sensor = new DS18S20();
                 break;
-            }
-            case "DHT22T" : {
+            } case "DHT22T" : {
                 sensor = new DHT22Temperature();
                  break;
-            }
-            case "DHT22H" : {
+            } case "DHT22H" : {
                 sensor = new DHT22Humidity();
                 break;
-            }
-            case "CPUT" : {
+            } case "CPUT" : {
                 sensor  = new SystemThermometer();
                 break;
-            }
-            case "Dummy": {
+            } case "Dummy": {
                 sensor = new DummySensor();
                 break;
-            }
-            default: {
+            } default: {
                 throw new IllegalArgumentException("Sensor " + sensorType + " Not supported");
             }
-
         }
     }
 
@@ -48,25 +42,21 @@ public class SensorBuilder {
         return this;
     }
 
-
-
     public SensorBuilder setDesctiption(String desctiption) {
         sensor.setDescription(desctiption);
         return this;
     }
 
+    public SensorBuilder setUnit(String unit) {
+        sensor.setUnit(unit);
+        return this;
+    }
+
     public AbstractSensor build() {
-        if(sensor.getType() == null) throw new IllegalArgumentException("type not set on sensor");
         if(sensor.getName() == null) throw new IllegalArgumentException("name not set on sensor");
         if(sensor.getDescription() == null) throw new IllegalArgumentException("description not set on sensor");
         if(sensor.getUnit() == null) throw new IllegalArgumentException("unit not set on sensor");
         return sensor;
-    }
-
-
-    public SensorBuilder setUnit(String unit) {
-        sensor.setUnit(unit);
-        return this;
     }
 
 }

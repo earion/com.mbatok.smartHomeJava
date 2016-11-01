@@ -4,21 +4,23 @@ import com.mbatok.sensors.AbstractSensor;
 import com.mbatok.sensors.Sensor;
 import com.mbatok.sensors.SensorResult;
 
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import java.io.IOException;
+import java.util.Random;
 
 @Entity
 
 public class DummySensor extends AbstractSensor implements Sensor {
 
     public DummySensor() {
-        super(DummySensor.class.getSimpleName(),"DUMM");
+        super("DUMM");
     }
 
     @Override
     public SensorResult read() throws IOException {
-        return null;
+        Random rand = new Random();
+        float finalX = rand.nextFloat() * (100 - 20) + 20;
+        return new SensorResult(finalX,this);
     }
 
 

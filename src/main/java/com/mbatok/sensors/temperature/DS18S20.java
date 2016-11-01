@@ -1,7 +1,6 @@
 package com.mbatok.sensors.temperature;
 
 import com.mbatok.sensors.AbstractSensor;
-import com.mbatok.sensors.Sensor;
 import com.mbatok.sensors.SensorResult;
 
 import java.io.File;
@@ -20,7 +19,7 @@ public class DS18S20 extends AbstractSensor {
 
 
     public DS18S20() {
-        super(DS18S20.class.getName(),DS18S20.generateDeegreSymbolForLCDDisplay());
+        super(DS18S20.generateDeegreSymbolForLCDDisplay());
     }
 
     public void setName(String sensorName) throws IOException {
@@ -62,7 +61,7 @@ public class DS18S20 extends AbstractSensor {
 
     @Override
     public SensorResult read() throws IOException {
-        return new SensorResult(readTemperature(),getType(),getDescription());
+        return new SensorResult(readTemperature(),this);
     }
 
 

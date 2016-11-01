@@ -8,10 +8,10 @@ public interface Sensor {
 
     String getDescription();
 
-    String getType();
-
     String getName();
 
     String getUnit();
+
+    Integer getId();
 
 }

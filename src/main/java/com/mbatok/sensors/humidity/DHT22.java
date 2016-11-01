@@ -14,8 +14,8 @@ public abstract class DHT22 extends AbstractSensor implements Sensor {
     private float temperature;
     private float humidity;
 
-    DHT22(String type, String unit) {
-        super(type, unit);
+    DHT22(String unit) {
+        super(unit);
     }
 
     private void readTemperatureAndHumidity() throws IOException{
