@@ -1,6 +1,7 @@
 package com.mbatok.sensors.humidity;
 
 import com.mbatok.sensors.Sensor;
+import com.mbatok.sensors.SensorResult;
 
 import java.io.IOException;
 
@@ -9,16 +10,13 @@ import java.io.IOException;
  */
 public class DHT22Humidity extends DHT22 implements Sensor{
 
-
-    @Override
-    public float read() throws IOException {
-        return readHumidity();
-    }
-
-    @Override
-    public String getDescription() {
-        return null;
+    public DHT22Humidity() {
+        super(DHT22Humidity.class.getName(),"%");
     }
 
 
+    @Override
+    public SensorResult read() throws IOException {
+        return  new SensorResult(readHumidity(),getUnit(),getDescription());
+    }
 }

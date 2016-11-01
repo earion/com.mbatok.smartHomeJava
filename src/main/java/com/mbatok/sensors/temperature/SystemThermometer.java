@@ -1,6 +1,8 @@
 package com.mbatok.sensors.temperature;
 
+import com.mbatok.sensors.AbstractSensor;
 import com.mbatok.sensors.Sensor;
+import com.mbatok.sensors.SensorResult;
 import com.pi4j.system.SystemInfo;
 
 import java.io.IOException;
@@ -9,8 +11,12 @@ import java.text.DecimalFormat;
 /**
  * Created by mateusz on 25.08.16.
  */
-public class SystemThermometer implements Sensor {
+public class SystemThermometer extends AbstractSensor {
 
+
+    public SystemThermometer() {
+        super(SystemThermometer.class.getName(), DS18S20.generateDeegreSymbolForLCDDisplay());
+    }
 
     public Float readTemperature() throws IOException {
         try {
@@ -27,22 +33,11 @@ public class SystemThermometer implements Sensor {
     }
 
     @Override
-    public float read() throws IOException {
-        return readTemperature();
-    }
-
-    @Override
-    public String getDescription() {
-        return "System CPU";
-    }
-
-    @Override
-    public String getSensorType() {
-        return "System CPU Temp";
+    public SensorResult read() throws IOException {
+        return new SensorResult(readTemperature(),getUnit(),getDescription());
     }
 
 
-    public String getDescriptionAndTemperatureValue() throws IOException {
-        return getDescription() + " " + readTemperatureAsString();
-    }
+
+
 }

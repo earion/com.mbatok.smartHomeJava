@@ -1,6 +1,7 @@
 package com.mbatok.sensors.temperature;
 
 import com.mbatok.sensors.Sensor;
+import com.mbatok.sensors.SensorBuilder;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,10 +23,18 @@ public class ThermometerCollector {
         List<String> tempFileContent = Files.readAllLines(new File(sensorsFileName).toPath());
         for (String s : tempFileContent) {
             String[] device = s.split(",");
-            String description = device[0];
-            String systemDeviceName = device[1];
-            sensorsList.add(new DallasThermometer(systemDeviceName, description));
+            SensorBuilder sb = buildSensor(device);
+            sensorsList.add(sb.build());
         }
+    }
+
+    private SensorBuilder buildSensor(String[] device) throws IOException {
+        String type = device[0];
+        String description = device[1];
+        String systemDeviceName = device[2];
+        return new SensorBuilder(type)
+                    .setName(systemDeviceName)
+                    .setDesctiption(description);
     }
 
     public void addSystemSensor() {

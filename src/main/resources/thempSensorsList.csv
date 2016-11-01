@@ -1,2 +1,4 @@
-Na zewnatrz,28-8000001f1390
-Wewnatrz,10-000802daaae7
+DS18S20,Na zewnatrz,28-8000001f1390
+DS18S20,Wewnatrz,10-000802daaae7
+DHT22H,Wilgotnosc,brak adresu
+CPUt,Temp CPU,brak adresu

@@ -41,9 +41,7 @@ public class CLIProcess extends Thread {
         executedComand = commandList.toString();
     }
 
-    public CLIProcess(String command, String... values) {
-        this(String.format(command, values));
-    }
+
 
     public CLIProcess executeWithDefaultTimeout() {
         Integer timeout = 2;

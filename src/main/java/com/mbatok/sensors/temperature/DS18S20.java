@@ -1,6 +1,8 @@
 package com.mbatok.sensors.temperature;
 
+import com.mbatok.sensors.AbstractSensor;
 import com.mbatok.sensors.Sensor;
+import com.mbatok.sensors.SensorResult;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,23 +12,20 @@ import java.util.List;
 /**
  * Created by mateusz on 25.08.16.
  */
-public class DallasThermometer implements Sensor {
+public class DS18S20 extends AbstractSensor {
 
     private final String path = "/sys/bus/w1/devices";
     private final String tempheratureFile = "w1_slave";
-    private final String sensorName;
-    private String description;
 
-    public DallasThermometer(String sensorName) throws IOException {
-        checkSensorExists(sensorName);
-        checkIfSensorIsThermometer(sensorName);
-        this.sensorName = sensorName;
-        this.description="empty";
+
+
+    public DS18S20() {
+        super(DS18S20.class.getName(),DS18S20.generateDeegreSymbolForLCDDisplay());
     }
 
-    public DallasThermometer(String sensorName,String description) throws IOException {
-        this(sensorName);
-        this.description = description;
+    public void setName(String sensorName) throws IOException {
+        checkSensorExists(sensorName);
+        checkIfSensorIsThermometer(sensorName);
     }
 
     private void checkIfSensorIsThermometer(String sensorName) throws IOException {
@@ -38,11 +37,9 @@ public class DallasThermometer implements Sensor {
         if(!sensor.exists()) throw new IOException("Sensor " + sensorName + " does not exit");
     }
 
-
-
     public Float readTemperature() throws IOException {
-        checkSensorExists(sensorName);
-        String thempFileDir = path + "/" + sensorName + "/" + tempheratureFile;
+        checkSensorExists(getName());
+        String thempFileDir = path + "/" + getName() + "/" + tempheratureFile;
         File tempFile = new File(thempFileDir);
         List<String> tempFileContent = Files.readAllLines(tempFile.toPath());
         checkIfSensorReadinghasGoodChecksum(tempFileContent.get(0));
@@ -56,27 +53,18 @@ public class DallasThermometer implements Sensor {
     }
 
     public static String generateDeegreSymbolForLCDDisplay() {
-        return Character.toString((char) 161);
+        return Character.toString((char) 161) + "C";
     }
 
     private void checkIfSensorReadinghasGoodChecksum(String lineWIthCrcReading) throws IOException {
-        if(!lineWIthCrcReading.endsWith("YES")) throw new IOException("Sensor " + sensorName  + " damaged");
+        if(!lineWIthCrcReading.endsWith("YES")) throw new IOException("Sensor " + getName()  + " damaged");
     }
 
     @Override
-    public float read() throws IOException {
-        return readTemperature();
+    public SensorResult read() throws IOException {
+        return new SensorResult(readTemperature(),getType(),getDescription());
     }
 
-    @Override
-    public String getDescription() {
-        return description;
-    }
-
-    @Override
-    public String getSensorType() {
-        return "Dallas DHT";
-    }
 
 }
 

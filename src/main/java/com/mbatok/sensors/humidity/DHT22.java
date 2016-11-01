@@ -1,7 +1,7 @@
 package com.mbatok.sensors.humidity;
 
+import com.mbatok.sensors.AbstractSensor;
 import com.mbatok.sensors.Sensor;
-import com.mbatok.sensors.temperature.ThermometerSensor;
 import com.mbatok.sys.cli.CLIProcess;
 
 import java.io.IOException;
@@ -9,31 +9,21 @@ import java.io.IOException;
 /**
  * Created by mateusz on 27.10.16.
  */
-public abstract class DHT22 implements Sensor {
+public abstract class DHT22 extends AbstractSensor implements Sensor {
 
     private float temperature;
     private float humidity;
-    private String description;
 
-    protected DHT22()  {
-        temperature=0;
-        humidity = 0;
+    DHT22(String type, String unit) {
+        super(type, unit);
     }
 
-    @Override
-    public String getSensorType() {
-        return "DHT22";
-    }
-
-        protected void readTemperatureAndHumidity() {
-        try {
+    private void readTemperatureAndHumidity() throws IOException{
             String dht22output = executeReadingAndGetResult();
-            extractHumidityAndTemeperatureData(dht22output);
-        } catch (IOException e) {
-        }
+            extractHumidityAndTemperatureData(dht22output);
     }
 
-    protected void extractHumidityAndTemeperatureData(String dht22output) {
+     private void extractHumidityAndTemperatureData(String dht22output) {
         String[]  dht22goodOutputArray  = dht22output.split(",");
         if(Float.valueOf(dht22goodOutputArray[0]) != 0) {
             humidity = Float.valueOf(dht22goodOutputArray[0]);
@@ -41,7 +31,7 @@ public abstract class DHT22 implements Sensor {
         temperature = Float.valueOf(dht22goodOutputArray[1]);
     }
 
-    protected String executeReadingAndGetResult() throws IOException {
+    private String executeReadingAndGetResult() throws IOException {
         CLIProcess runDht22read = new CLIProcess("sudo /home/pi/dev/dht22");
         String dht22output =  runDht22read.executeWithTimeoutInSeconds(3).getSuccessMessage();
         if(dht22output.contains("IO Error")) {
@@ -50,15 +40,13 @@ public abstract class DHT22 implements Sensor {
         return dht22output;
     }
 
-    protected Float readHumidity() {
+     Float readHumidity() throws IOException {
         readTemperatureAndHumidity();
         return humidity;
     }
 
-    protected Float readTemperature()  {
+     Float readTemperature() throws IOException {
         readTemperatureAndHumidity();
         return temperature;
     }
-
-
 }
