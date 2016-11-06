@@ -1,14 +1,16 @@
 package com.mbatok.sensors.temperature;
 
-import com.mbatok.sensors.AbstractSensor;
-import com.mbatok.sensors.SensorResult;
+import com.mbatok.sensors.sensor.AbstractSensor;
+import com.mbatok.sensors.sensor.SensorResult;
 import com.pi4j.system.SystemInfo;
 
+import javax.persistence.Entity;
 import java.io.IOException;
 
 /**
  * Created by mateusz on 25.08.16.
  */
+@Entity
 public class SystemThermometer extends AbstractSensor {
 
 

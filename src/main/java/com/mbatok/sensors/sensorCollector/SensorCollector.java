@@ -1,7 +1,7 @@
-package com.mbatok.sensors.temperature;
+package com.mbatok.sensors.sensorCollector;
 
-import com.mbatok.sensors.Sensor;
-import com.mbatok.sensors.SensorBuilder;
+import com.mbatok.sensors.sensor.Sensor;
+import com.mbatok.sensors.sensor.SensorBuilder;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,20 +12,28 @@ import java.util.List;
 /**
  * Created by mateusz on 25.08.16.
  */
-public class ThermometerCollector {
+public class SensorCollector {
 
     private ArrayList<Sensor> sensorsList;
 
-    public ThermometerCollector(String sensorsFileName) throws IOException {
+    protected SensorCollector() {
+        sensorsList = new ArrayList<>();
+    }
+
+    public SensorCollector(String sensorsFileName) throws IOException {
+
         File sensorsFile = new File(sensorsFileName);
         if (!sensorsFile.exists()) throw new IOException("Sensor files does not exist " + sensorsFileName);
-        sensorsList = new ArrayList<>();
         List<String> tempFileContent = Files.readAllLines(new File(sensorsFileName).toPath());
         for (String s : tempFileContent) {
             String[] device = s.split(",");
             SensorBuilder sb = buildSensor(device);
             sensorsList.add(sb.build());
         }
+    }
+
+    protected void setSensorsList(ArrayList<Sensor> list) {
+        this.sensorsList = list;
     }
 
     private SensorBuilder buildSensor(String[] device) throws IOException {
@@ -37,11 +45,8 @@ public class ThermometerCollector {
                     .setDesctiption(description);
     }
 
-    public void addSystemSensor() {
-        sensorsList.add(new SystemThermometer());
-    }
 
-    public int getTempSensorsNumber() {
+    public int getSensorsNumber() {
         return sensorsList.size();
     }
 

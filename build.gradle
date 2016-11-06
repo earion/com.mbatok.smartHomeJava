@@ -20,6 +20,7 @@ dependencies {
     apply plugin: 'idea'
     compile group: 'org.hibernate', name: 'hibernate-gradle-plugin', version: '5.2.3.Final'
     compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.7.2'
+    compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.35'
 
 
 

@@ -1,4 +1,4 @@
-package com.mbatok.sensors;
+package com.mbatok.sensors.sensor;
 
 import java.io.IOException;
 

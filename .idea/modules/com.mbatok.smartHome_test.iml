@@ -16,6 +16,7 @@
     <orderEntry type="library" name="Gradle: org.apache.logging.log4j:log4j-core:2.7" level="project" />
     <orderEntry type="library" name="Gradle: org.hibernate:hibernate-gradle-plugin:5.2.3.Final" level="project" />
     <orderEntry type="library" name="Gradle: org.xerial:sqlite-jdbc:3.7.2" level="project" />
+    <orderEntry type="library" name="Gradle: mysql:mysql-connector-java:5.1.35" level="project" />
     <orderEntry type="library" name="Gradle: junit:junit:4.11" level="project" />
     <orderEntry type="library" name="Gradle: org.mockito:mockito-all:1.10.19" level="project" />
     <orderEntry type="library" name="Gradle: org.assertj:assertj-core:3.5.2" level="project" />

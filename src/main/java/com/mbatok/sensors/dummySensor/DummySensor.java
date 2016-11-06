@@ -1,8 +1,8 @@
 package com.mbatok.sensors.dummySensor;
 
-import com.mbatok.sensors.AbstractSensor;
-import com.mbatok.sensors.Sensor;
-import com.mbatok.sensors.SensorResult;
+import com.mbatok.sensors.sensor.AbstractSensor;
+import com.mbatok.sensors.sensor.Sensor;
+import com.mbatok.sensors.sensor.SensorResult;
 
 import javax.persistence.Entity;
 import java.io.IOException;

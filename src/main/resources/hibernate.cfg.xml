@@ -1,25 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
         "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
-
-
-
-
 <hibernate-configuration>
     <session-factory>
         <property name="show_sql">true</property>
         <property name="format_sql">true</property>
-        <property name="dialect">com.srccodes.example.hibernate.SQLiteDialect</property>
-        <property name="connection.driver_class">org.sqlite.JDBC</property>
-        <property name="connection.url">jdbc:sqlite:WeatherStation.db</property>
-        <property name="connection.username"></property>
-        <property name="connection.password"></property>
-
+        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="connection.url">jdbc:mysql://192.168.1.11:3306/WeatherStation</property>
+        <property name="connection.username">pogoda</property>
+        <property name="connection.password">pogodynka</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
-        <mapping class="com.srccodes.example.hibernate.Contact"/>
-
     </session-factory>
-
-
-
 </hibernate-configuration>

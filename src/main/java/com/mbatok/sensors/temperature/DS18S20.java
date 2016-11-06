@@ -1,8 +1,9 @@
 package com.mbatok.sensors.temperature;
 
-import com.mbatok.sensors.AbstractSensor;
-import com.mbatok.sensors.SensorResult;
+import com.mbatok.sensors.sensor.AbstractSensor;
+import com.mbatok.sensors.sensor.SensorResult;
 
+import javax.persistence.Entity;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -11,10 +12,11 @@ import java.util.List;
 /**
  * Created by mateusz on 25.08.16.
  */
+@Entity
 public class DS18S20 extends AbstractSensor {
 
-    private final String path = "/sys/bus/w1/devices";
-    private final String tempheratureFile = "w1_slave";
+    private static final String path = "/sys/bus/w1/devices";
+    private static final String tempheratureFile = "w1_slave";
 
 
 
@@ -25,6 +27,7 @@ public class DS18S20 extends AbstractSensor {
     public void setName(String sensorName) throws IOException {
         checkSensorExists(sensorName);
         checkIfSensorIsThermometer(sensorName);
+        super.setName(sensorName);
     }
 
     private void checkIfSensorIsThermometer(String sensorName) throws IOException {

@@ -1,4 +1,8 @@
-package com.mbatok.sensors;
+package com.mbatok.sensors.sensor;
+
+import com.mbatok.hibernateUtil.HibernateUtil;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -52,5 +56,12 @@ public class SensorResult {
 
     public void setSensor(AbstractSensor sensor) {
         this.sensor = sensor;
+    }
+
+    public void save() {
+        Session hs = HibernateUtil.getSession();
+        Transaction ts = hs.beginTransaction();
+        hs.save(this);
+        ts.commit();
     }
 }

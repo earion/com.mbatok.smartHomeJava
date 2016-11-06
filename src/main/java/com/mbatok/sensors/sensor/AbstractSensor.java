@@ -1,4 +1,4 @@
-package com.mbatok.sensors;
+package com.mbatok.sensors.sensor;
 
 import javax.persistence.*;
 import java.io.IOException;
@@ -8,8 +8,8 @@ import java.util.Set;
  * Created by mateusz on 31.10.16.
  */
 @Entity
-@Table(name = "Sensors", uniqueConstraints = {
-@UniqueConstraint(columnNames = "name")})
+@Table(name = "Sensors",
+        uniqueConstraints=@UniqueConstraint(columnNames={"description", "name"}))
 
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class AbstractSensor  implements Sensor{

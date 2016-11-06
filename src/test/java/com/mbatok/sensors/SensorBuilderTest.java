@@ -2,10 +2,11 @@ package com.mbatok.sensors;
 import static org.assertj.core.api.Assertions.*;
 
 import com.mbatok.hibernateUtil.HibernateUtil;
-import com.srccodes.example.hibernate.Contact;
+import com.mbatok.sensors.sensor.Sensor;
+import com.mbatok.sensors.sensor.SensorBuilder;
+import com.mbatok.sensors.sensor.SensorResult;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,6 +35,7 @@ public class SensorBuilderTest {
         //when
         assertThat(ds.getDescription()).isEqualTo("Dummy_Description");
         assertThat(ds.getUnit()).isEqualTo("dup");
+        assertThat(ds.getName()).isEqualTo("Dummy_Name");
     }
 
     @Test

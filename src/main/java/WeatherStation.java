@@ -1,8 +1,8 @@
 import com.mbatok.i2c.lcd.I2cLCD;
 import com.mbatok.i2c.lcd.LCDFactory;
-import com.mbatok.sensors.humidity.DHT22;
-import com.mbatok.sensors.humidity.DHT22Humidity;
-import com.mbatok.sensors.temperature.ThermometerCollector;
+import com.mbatok.sensors.sensor.SensorResult;
+import com.mbatok.sensors.sensorCollector.DBSensorCollector;
+import com.mbatok.sensors.sensorCollector.SensorCollector;
 import com.pi4j.io.i2c.I2CBus;
 import com.pi4j.io.i2c.I2CFactory;
 
@@ -19,19 +19,17 @@ import java.time.format.DateTimeFormatter;
 public class WeatherStation {
 
     private final I2cLCD lcd;
-    private final ThermometerCollector thermometerCollector;
-    private final DHT22 dht22;
+    private final SensorCollector sensorCollector;
 
     public static void main(String[] args) throws IOException, InterruptedException, I2CFactory.UnsupportedBusNumberException {
         WeatherStation ws = new WeatherStation();
         ws.run();
     }
 
-
     public WeatherStation() throws IOException, I2CFactory.UnsupportedBusNumberException {
         lcd = LCDFactory.createLCD(I2CBus.BUS_1,0x27);
-        thermometerCollector = new ThermometerCollector("classes/thempSensorsList.csv");
-        dht22 = new DHT22Humidity();
+        //sensorCollector = new SensorCollector("classes/thempSensorsList.csv");
+        sensorCollector = new DBSensorCollector();
     }
 
 
@@ -56,28 +54,36 @@ public class WeatherStation {
         }
     }
 
-
-    public  void runOneReadCycle() throws IOException {
+    public  void runOneReadCycle() throws IOException, InterruptedException {
         lcd.setTextForWholeLcdLength(0, getSystemDateAsString());
-        for (int i = 0; i < thermometerCollector.getTempSensorsNumber(); i++) {
-            try {
-                lcd.setTextForWholeLcdLength(i + 1, getSpecyficTemperatureSensor(i));
-            } catch (IOException e) {
-                lcd.setText(i+1,e.getMessage());
-            }
+        for (int i = 0; i < sensorCollector.getSensorsNumber(); i++) {
+            SensorResult sr = sensorCollector.getSensorsList().get(i).read();
+            putSensorReadOnTheLcdLine(i, sr);
+            sr.save();
         }
-        lcd.setTextForWholeLcdLength(3, dht22.getDescription() + " " + dht22.read());
+        Thread.sleep(60000);
     }
 
-    private String getSpecyficTemperatureSensor(int i) throws IOException {
-        return thermometerCollector.getSensorsList().get(i).getDescription() + "" +
-                "" + thermometerCollector.getSensorsList().get(i).read();
+    private void putSensorReadOnTheLcdLine(int lcdLine,SensorResult sr) throws IOException {
+        if(lcdLine < 3) {
+            try {
+                lcd.setTextForWholeLcdLength(lcdLine + 1, getSpecyficSensorReading(lcdLine, sr));
+            } catch (IOException e) {
+                lcd.setText(lcdLine + 1, e.getMessage());
+            }
+        }
+    }
+
+    private String getSpecyficSensorReading(int i,SensorResult sr) throws IOException {
+        return sensorCollector.getSensorsList().get(i).getDescription() + " " +
+                 String.format("%2.1f" , sr.getValue())
+                + sensorCollector.getSensorsList().get(i).getUnit();
     }
 
 
     private String getSystemDateAsString() {
         Instant instant = Instant.now();
-        ZoneOffset zoneOffset = ZoneOffset.of( "+02:00" );
+        ZoneOffset zoneOffset = ZoneOffset.of( "+01:00" );
         OffsetDateTime odt = OffsetDateTime.ofInstant( instant , zoneOffset );
         return odt.format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));
     }

@@ -1,7 +1,7 @@
 package com.mbatok.sensors.humidity;
 
-import com.mbatok.sensors.Sensor;
-import com.mbatok.sensors.SensorResult;
+import com.mbatok.sensors.sensor.Sensor;
+import com.mbatok.sensors.sensor.SensorResult;
 import com.mbatok.sensors.temperature.DS18S20;
 
 import javax.persistence.Entity;

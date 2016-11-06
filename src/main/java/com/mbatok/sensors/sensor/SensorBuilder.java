@@ -1,10 +1,13 @@
-package com.mbatok.sensors;
+package com.mbatok.sensors.sensor;
 
+import com.mbatok.hibernateUtil.HibernateUtil;
 import com.mbatok.sensors.dummySensor.DummySensor;
 import com.mbatok.sensors.humidity.DHT22Humidity;
 import com.mbatok.sensors.humidity.DHT22Temperature;
 import com.mbatok.sensors.temperature.DS18S20;
 import com.mbatok.sensors.temperature.SystemThermometer;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import java.io.IOException;
 
@@ -56,7 +59,15 @@ public class SensorBuilder {
         if(sensor.getName() == null) throw new IllegalArgumentException("name not set on sensor");
         if(sensor.getDescription() == null) throw new IllegalArgumentException("description not set on sensor");
         if(sensor.getUnit() == null) throw new IllegalArgumentException("unit not set on sensor");
+        //WriteSensorToDatabase();
         return sensor;
+    }
+
+    private void WriteSensorToDatabase() {
+        Session session = HibernateUtil.getSession();
+        Transaction ts =  session.beginTransaction();
+        session.save(sensor);
+        ts.commit();
     }
 
 }

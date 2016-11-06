@@ -1,7 +1,7 @@
 package com.mbatok.sensors.humidity;
 
-import com.mbatok.sensors.Sensor;
-import com.mbatok.sensors.SensorResult;
+import com.mbatok.sensors.sensor.Sensor;
+import com.mbatok.sensors.sensor.SensorResult;
 
 import javax.persistence.Entity;
 import java.io.IOException;

@@ -1,13 +1,15 @@
 package com.mbatok.hibernateUtil;
 
-import java.util.Properties;
-
+import com.mbatok.sensors.sensor.AbstractSensor;
+import com.mbatok.sensors.sensor.SensorResult;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+
+import java.util.Properties;
 
 /**
  * Contains utility methods
@@ -23,9 +25,14 @@ public class HibernateUtil {
 
     private static SessionFactory configureSessionFactory() throws HibernateException {
         Configuration configuration = new Configuration().configure();
-        configuration.addAnnotatedClass(com.mbatok.sensors.AbstractSensor.class);
+        configuration.addAnnotatedClass(AbstractSensor.class);
         configuration.addAnnotatedClass(com.mbatok.sensors.dummySensor.DummySensor.class);
-        configuration.addAnnotatedClass(com.mbatok.sensors.SensorResult.class);
+        configuration.addAnnotatedClass(com.mbatok.sensors.temperature.DS18S20.class);
+        configuration.addAnnotatedClass(com.mbatok.sensors.temperature.SystemThermometer.class);
+        configuration.addAnnotatedClass(com.mbatok.sensors.humidity.DHT22Humidity.class);
+        configuration.addAnnotatedClass(com.mbatok.sensors.humidity.DHT22Temperature.class);
+
+        configuration.addAnnotatedClass(SensorResult.class);
 
 
         Properties properties = configuration.getProperties();

@@ -1,7 +1,7 @@
 package com.mbatok.sensors.humidity;
 
-import com.mbatok.sensors.AbstractSensor;
-import com.mbatok.sensors.Sensor;
+import com.mbatok.sensors.sensor.AbstractSensor;
+import com.mbatok.sensors.sensor.Sensor;
 import com.mbatok.sys.cli.CLIProcess;
 
 import java.io.IOException;
@@ -40,13 +40,19 @@ public abstract class DHT22 extends AbstractSensor implements Sensor {
         return dht22output;
     }
 
-     Float readHumidity() throws IOException {
-        readTemperatureAndHumidity();
-        return humidity;
+     Float readHumidity() {
+         try {
+             readTemperatureAndHumidity();
+         } catch (IOException e) {
+         }
+         return humidity;
     }
 
-     Float readTemperature() throws IOException {
-        readTemperatureAndHumidity();
-        return temperature;
+     Float readTemperature()  {
+         try {
+             readTemperatureAndHumidity();
+         } catch (IOException e) {
+         }
+         return temperature;
     }
 }
