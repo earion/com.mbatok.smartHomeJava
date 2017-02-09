@@ -25,6 +25,7 @@ public class StringFixLength {
     private static String extendStringSize(String toBeFixed, String stringSuffixWithSpaces) {
         String returnString =  new String();
         String[] wordsArray =  toBeFixed.split(" ");
+
         for(int i = 0; i <wordsArray.length;i++) {
             if((i+1) < wordsArray.length) {
                 if(isFirstCharacterInWordDigit(wordsArray[i + 1])) {
@@ -39,7 +40,9 @@ public class StringFixLength {
     }
 
     private static boolean isFirstCharacterInWordDigit(String s) {
-        return Character.isDigit(s.charAt(0));
+        if(Character.isDigit(s.charAt(0))) return true;
+        if(s.charAt(0) == 45) return true;
+        else return false;
     }
 
 }

@@ -7,7 +7,7 @@
         <property name="format_sql">true</property>
         <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="connection.url">jdbc:mysql://192.168.1.11:3306/WeatherStation</property>
+        <property name="connection.url">jdbc:mysql://192.168.1.18:3306/WeatherStation</property>
         <property name="connection.username">pogoda</property>
         <property name="connection.password">pogodynka</property>
         <property name="hibernate.hbm2ddl.auto">update</property>

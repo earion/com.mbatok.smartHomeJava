@@ -1,3 +1,5 @@
+package com.mbatok;
+
 import com.mbatok.i2c.lcd.I2cLCD;
 import com.mbatok.i2c.lcd.LCDFactory;
 import com.mbatok.sensors.sensor.SensorResult;
@@ -67,12 +69,15 @@ public class WeatherStation {
     private void putSensorReadOnTheLcdLine(int lcdLine,SensorResult sr) throws IOException {
         if(lcdLine < 3) {
             try {
+                /*int hour = getHour();
+                if(hour > 18) { lcd.setBacklight(Color.OFF);}*/
                 lcd.setTextForWholeLcdLength(lcdLine + 1, getSpecyficSensorReading(lcdLine, sr));
             } catch (IOException e) {
                 lcd.setText(lcdLine + 1, e.getMessage());
             }
         }
     }
+
 
     private String getSpecyficSensorReading(int i,SensorResult sr) throws IOException {
         return sensorCollector.getSensorsList().get(i).getDescription() + " " +
